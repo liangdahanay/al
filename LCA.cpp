@@ -62,8 +62,8 @@ Node* LCADownUpHelper(Node* root, Node* p, Node* q){
 	if(p==nullptr||q==nullptr||root==nullptr) return nullptr;
 	if(root==q||root==p) return root;
 
-	Node* left = LCADownUp(root->left, p, q);
-	Node* right = LCADownUp(root->right, p, q);
+	Node* left = LCADownUpHelper(root->left, p, q);
+	Node* right = LCADownUpHelper(root->right, p, q);
 
 	if(left!=nullptr && right!=nullptr) return root;
 
