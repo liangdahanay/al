@@ -5,8 +5,8 @@
 
 bool checkBalancedDiff(Node* root);
 bool checkBalanced(Node* root);
-bool checkBinaryInPlace(Node* root);
-bool checkBinaryExtraSpace(Node* root);
+bool checkBSTInPlace(Node* root);
+bool checkBSTExtraSpace(Node* root);
 
 void checkTreeTest();
 
