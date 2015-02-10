@@ -1,34 +1,14 @@
+/*
+ * lowestCommonAncestor.cpp
+ *
+ *  Created on: Feb 8, 2015
+ *      Author: liang
+ */
+
 #include "lowestCommonAncestor.h"
 #include <iostream>
 #include <time.h>
-Node::Node(int val, Node* left, Node* right):val(val), left(left), right(right){}
-
-Node* constructHelper(const vector<int>& num, Node* root, int left, int right){
-	if(left>right) return nullptr;
-	int idx = (left+right)/2;
-	root = new Node(num[idx], nullptr, nullptr);
-	root->left = constructHelper(num, root->left, left, idx-1);
-	root->right = constructHelper(num, root->right, idx+1, right);
-
-	return root;
-}
-
-Node* constructTree(const vector<int>& num){
-	if(num.size()==0)
-		return nullptr;
-	Node* root = constructHelper(num, root, 0, num.size()-1);
-	return root;
-}
-
-Node* getByValue(Node* root, int val){
-	if(root==nullptr) return nullptr;
-	if(root->val == val) return root;
-	Node* node = getByValue(root->left, val);
-	if(node!=nullptr) return node;
-	return getByValue(root->right, val);
-}
-
-
+#include "tree.h"
 int count(Node* root, Node* p, Node* q){
 	if(root==nullptr) return 0;
 
@@ -95,31 +75,45 @@ Node* LCABST(Node* root, Node* p, Node* q){
 
 
 void lowestCommonAncestorTest(){
+
+
 	clock_t start;
+	Node* ancestor;
 
 	vector<int> num;
-	for(int i=0;i<1000;i++){
+	for(int i=0;i<10000;i++){
 		num.push_back(i);
 	}
 
 	start = clock();
-	Node* root = constructTree(num);
-	Node* node1 = getByValue(root, 48);
-	Node* node2 = getByValue(root, 100);
+	Node* root = constructBalanceTree(num);
+	Node* node1 = getByValue(root, 101);
+	Node* node2 = getByValue(root, 1000);
+
+	std::cout << "Init balanced tree finished " << std::endl;
+
+
+	Node* rootu = constructUnbalanceTree(num);
+	Node* node1u = getByValue(rootu, 101);
+	Node* node2u = getByValue(rootu, 1000);
+
+	std::cout << "Init Unbalanced tree finished " << std::endl;
 
 	std::cout << "Init Time: " << clock()-start << std::endl;
 
 
+	std::cout << "Balanced" << std::endl << std::endl;
 
 	std::cout << "Up to Down" << std::endl;
 	start = clock();
-	Node* ancestor = LCAUpDown(root, node1, node2);
+	ancestor = LCAUpDown(root, node1, node2);
 	std::cout << "Time: " << clock()-start << std::endl;
 	if(ancestor==nullptr){
 		std::cout << "no ancestor" << std::endl;
 	}else{
 		std::cout << "Ancestor: "<< ancestor->val << std::endl;
 	}
+	std::cout << std::endl;
 
 
 	std::cout << "Down to Up" << std::endl;
@@ -133,6 +127,8 @@ void lowestCommonAncestorTest(){
 	}
 
 
+	std::cout << std::endl;
+
 	std::cout << "BST" << std::endl;
 	start = clock();
 	ancestor = LCABST(root, node1, node2);
@@ -142,5 +138,49 @@ void lowestCommonAncestorTest(){
 	}else{
 		std::cout << "Ancestor: " << ancestor->val << std::endl;
 	}
+
+	std::cout << std::endl;
+
+
+	std::cout << "Unbalanced" << std::endl << std::endl;
+
+
+	std::cout << "Up to Down" << std::endl;
+	start = clock();
+	ancestor = LCAUpDown(rootu, node1u, node2u);
+	std::cout << "Time: " << clock()-start << std::endl;
+	if(ancestor==nullptr){
+		std::cout << "no ancestor" << std::endl;
+	}else{
+		std::cout << "Ancestor: "<< ancestor->val << std::endl;
+	}
+	std::cout << std::endl;
+
+
+	std::cout << "Down to Up" << std::endl;
+	start = clock();
+	ancestor = LCADownUpHelper(rootu, node1u, node2u);
+	std::cout << "Time: " << clock()-start << std::endl;
+	if(ancestor==nullptr){
+		std::cout << "no ancestor" << std::endl;
+	}else{
+		std::cout << "Ancestor: " << ancestor->val << std::endl;
+	}
+
+
+	std::cout << std::endl;
+
+	std::cout << "BST" << std::endl;
+	start = clock();
+	ancestor = LCABST(rootu, node1u, node2u);
+	std::cout << "Time: " << clock()-start << std::endl;
+	if(ancestor==nullptr){
+		std::cout << "no ancestor" << std::endl;
+	}else{
+		std::cout << "Ancestor: " << ancestor->val << std::endl;
+	}
+
+	std::cout << std::endl;
 }
+
 
