@@ -27,7 +27,7 @@ bool checkBalanced(Node* root){
 }
 
 static Node* last = nullptr;
-bool checkBinaryInplace(Node* root){
+bool checkBSTInplace(Node* root){
 	if(root==nullptr) return true;
 
 	if(!checkBinaryInplace(root->left)) return false;
@@ -51,7 +51,7 @@ void treeInorderList(Node* root,vector<int>& list){
 	treeInorderList(root->right, list);
 }
 
-bool checkBinaryExtraSpace(Node* root){
+bool checkBSTExtraSpace(Node* root){
 	if(root==nullptr) return true;
 	vector<int> list;
 	treeInorderList(root, list);
@@ -74,14 +74,14 @@ void checkTreeTest(){
 	Node* root = constructBalanceTree(num);
 	start = clock();
 	cout << "Balance? " << checkBalanced(root) << endl;
-	cout << "Binary? " << checkBinaryInplace(root) << endl;
+	cout << "Binary? " << checkBSTInplace(root) << endl;
 	cout << "Time: " << clock()-start << endl <<endl;
 
 	cout << "Random, BST: " << endl;
 	Node* rootu = constructUnbalanceTree(num);
 	start = clock();
 	cout << "Balance? "<< checkBalanced(rootu) << endl;
-	cout << "Binary? " << checkBinaryInplace(rootu) << endl;
+	cout << "Binary? " << checkBSTInplace(rootu) << endl;
 	cout << "Time: " << clock()-start << endl <<endl;
 
 	num.clear();
@@ -94,7 +94,7 @@ void checkTreeTest(){
 	Node* rootub = constructUnbalanceTree(num);
 	start = clock();
 	cout << "Balance? "<< checkBalanced(rootub) << endl;
-	cout << "Binary? " << checkBinaryInplace(rootub) << endl;
+	cout << "Binary? " << checkBSTInplace(rootub) << endl;
 	cout << "Time: " << clock()-start << endl <<endl;
 
 }
